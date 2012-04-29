@@ -3,16 +3,12 @@ require_relative "chess_validator/board"
 module ChessValidator
   def self.validate(raw_board, raw_moves)
     board = Board.new(raw_board)
-    moves(raw_moves) do |origin, destination|
-      puts (board.valid_move? origin, destination) ? "LEGAL" : "ILLEGAL"
-    end
+    moves(raw_moves).map { |origin, dest| !!(board.valid_move? origin, dest) }
   end
 
   private
   
   def self.moves(input)
-    input.each_line do |line|
-      yield line.split
-    end
+    input.each_line.map { |line| line.split }
   end
 end
