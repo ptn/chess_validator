@@ -1,3 +1,4 @@
+require_relative "algebraic_notation"
 require_relative "pieces/piece"
 require_relative "pieces/pawn"
 require_relative "pieces/rook"
@@ -37,7 +38,7 @@ module ChessValidator
     # Example invocation: board["f6"]  # => a piece object
     #
     def [](algebraic)
-      real_row, real_column = algebraic_to_coordinates(algebraic)
+      real_row, real_column = AlgebraicNotation.to_coordinates(algebraic)
       # Careful: algebraic notation indexes the board from bottom to top.
       reversed_row = 7 - real_row
       index = 8 * reversed_row + real_column
@@ -92,20 +93,11 @@ module ChessValidator
         piece = nil
       else
         color = raw_piece[0].to_sym
-        position = coordinates_to_algebraic(row, column)
+        position = AlgebraicNotation.from_coordinates(row, column)
         cls = PIECES_DICT[raw_piece[1]]
         piece = cls.new(color, position, self)
       end
       piece
     end
-
-    def coordinates_to_algebraic(row, column)
-      [(column + 97).chr, row + 1].join
-    end
-
-    def algebraic_to_coordinates(algebraic)
-      [algebraic[1].to_i - 1, algebraic[0].ord - 97]
-    end
-
   end
 end

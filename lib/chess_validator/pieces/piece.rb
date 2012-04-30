@@ -52,7 +52,7 @@ module ChessValidator
       # otherwise.
       #
       def valid_move?(destination)
-        return false unless valid_algebraic? destination
+        return false unless AlgebraicNotation.valid? destination
         occupant = @board[destination]
         result = false
         if occupant.nil? || (enemy? occupant)
@@ -74,10 +74,6 @@ module ChessValidator
       end
 
       private
-
-      def valid_algebraic?(move)
-        ('a'..'h') === move[0] && ('1'..'8') === move[1]
-      end
 
       # Utility to calculate the distance between the current position
       # and a destination square.
