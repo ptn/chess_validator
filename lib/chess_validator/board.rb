@@ -15,13 +15,13 @@ module ChessValidator
 
     EMPTY_SQUARE = '--'
     
-    PIECES_DICT = {
-      "P" => Pieces::Pawn,
-      "R" => Pieces::Rook,
-      "N" => Pieces::Knight,
-      "B" => Pieces::Bishop,
-      "Q" => Pieces::Queen,
-      "K" => Pieces::King,
+    PIECES_HASH = {
+      :P => Pieces::Pawn,
+      :R => Pieces::Rook,
+      :N => Pieces::Knight,
+      :B => Pieces::Bishop,
+      :Q => Pieces::Queen,
+      :K => Pieces::King,
     }
 
 
@@ -76,14 +76,18 @@ module ChessValidator
       matrix = []
       row = 7
       column = 0
+
       input.split.each do |raw_piece|
         matrix << build_piece(raw_piece, row, column)
+
         column += 1
         if column == 8
           column = 0
           row -= 1
         end
+
       end
+
       matrix
     end
 
@@ -94,9 +98,10 @@ module ChessValidator
       else
         color = raw_piece[0].to_sym
         position = AlgebraicNotation.from_coordinates(row, column)
-        cls = PIECES_DICT[raw_piece[1]]
+        cls = PIECES_HASH[raw_piece[1].to_sym]
         piece = cls.new(color, position, self)
       end
+
       piece
     end
   end
