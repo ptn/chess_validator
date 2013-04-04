@@ -1,5 +1,6 @@
 require_relative "algebraic_notation"
 require_relative "board/builds_matrices"
+require_relative "board/invalid_move"
 
 module ChessValidator
   #
@@ -20,6 +21,8 @@ module ChessValidator
     # Example invocation: board["f6"]  # => a piece object
     #
     def [](algebraic)
+      validate_algebraic! algebraic, InvalidMove.for_indexing(algebraic)
+
       real_row, real_column = algebraic_notation_lib.to_coordinates(algebraic)
       # Careful: algebraic notation indexes the board from bottom to top.
       reversed_row = 7 - real_row
@@ -28,6 +31,9 @@ module ChessValidator
     end
 
     def valid_move?(origin, destination)
+      validate_algebraic! origin, InvalidMove.for_origin(origin)
+      validate_algebraic! destination, InvalidMove.for_destination(destination)
+
       !!(self[origin] && (self[origin].valid_move? destination))
     end
 
@@ -44,6 +50,14 @@ module ChessValidator
     # Return an array of all black pieces.
     def blacks
       matrix.select { |piece| piece && piece.color == :b }
+    end
+
+    private
+
+    def validate_algebraic!(algebraic, ex)
+      unless algebraic_notation_lib.valid? algebraic
+        raise ex
+      end
     end
   end
 end

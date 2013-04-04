@@ -53,8 +53,6 @@ module ChessValidator
       # piece.
       #
       def valid_move?(destination)
-        return false unless @board.algebraic_notation_lib.valid? destination
-
         occupant = @board[destination]
         result = false
         if occupant.nil? || (enemy? occupant)
