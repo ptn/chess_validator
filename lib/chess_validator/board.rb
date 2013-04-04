@@ -23,7 +23,7 @@ module ChessValidator
       # Careful: algebraic notation indexes the board from bottom to top.
       reversed_row = 7 - real_row
       index = 8 * reversed_row + real_column
-      @matrix[index]
+      matrix[index]
     end
 
     def valid_move?(origin, destination)
@@ -37,12 +37,12 @@ module ChessValidator
     
     # Return an array of all white pieces.
     def whites
-      @matrix.select { |piece| piece && piece.color == :w }
+      matrix.select { |piece| piece && piece.color == :w }
     end
 
     # Return an array of all black pieces.
     def blacks
-      @matrix.select { |piece| piece && piece.color == :b }
+      matrix.select { |piece| piece && piece.color == :b }
     end
 
     private
