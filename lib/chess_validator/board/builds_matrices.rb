@@ -21,11 +21,10 @@ module ChessValidator
         :K => Pieces::King,
       }
 
-      attr_reader :board, :algebraic_notation_lib
+      attr_reader :board
 
-      def initialize(board, algebraic_notation_lib=AlgebraicNotation)
+      def initialize(board)
         @board = board
-        @algebraic_notation_lib = algebraic_notation_lib
       end
 
       #
@@ -61,7 +60,7 @@ module ChessValidator
           piece = nil
         else
           color = raw_piece[0].to_sym
-          position = algebraic_notation_lib.from_coordinates(row, column)
+          position = board.algebraic_notation_lib.from_coordinates(row, column)
           cls = PIECES_HASH[raw_piece[1].to_sym]
           piece = cls.new(color, position, board)
         end

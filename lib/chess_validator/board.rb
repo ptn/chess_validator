@@ -6,9 +6,10 @@ module ChessValidator
   # Represents a chess board and the pieces set on it.
   #
   class Board
-    attr_reader :matrix
+    attr_reader :matrix, :algebraic_notation_lib
 
-    def initialize(input)
+    def initialize(input, algebraic_notation_lib=AlgebraicNotation)
+      @algebraic_notation_lib = algebraic_notation_lib
       @matrix = BuildsMatrices.new(self).build(input)
     end
 
@@ -19,7 +20,7 @@ module ChessValidator
     # Example invocation: board["f6"]  # => a piece object
     #
     def [](algebraic)
-      real_row, real_column = AlgebraicNotation.to_coordinates(algebraic)
+      real_row, real_column = algebraic_notation_lib.to_coordinates(algebraic)
       # Careful: algebraic notation indexes the board from bottom to top.
       reversed_row = 7 - real_row
       index = 8 * reversed_row + real_column
@@ -44,8 +45,5 @@ module ChessValidator
     def blacks
       matrix.select { |piece| piece && piece.color == :b }
     end
-
-    private
-
   end
 end
