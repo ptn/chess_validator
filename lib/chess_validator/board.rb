@@ -28,7 +28,7 @@ module ChessValidator
     end
 
     def valid_move?(origin, destination)
-      self[origin] && (self[origin].valid_move? destination)
+      !!(self[origin] && (self[origin].valid_move? destination))
     end
 
     # Return an array of all pieces of the given color.
