@@ -1,8 +1,8 @@
 require_relative "chess_validator/board"
 
 module ChessValidator
-  def self.validate(raw_board, raw_moves)
-    board = Board.new(raw_board)
+  def self.validate(raw_board, raw_moves, boardcls=Board)
+    board = boardcls.new(raw_board)
     moves(raw_moves).map { |origin, dest| !!(board.valid_move? origin, dest) }
   end
 
