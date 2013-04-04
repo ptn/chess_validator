@@ -7,8 +7,7 @@ module ChessValidator
     # This piece can move to any square on the board provided that
     # said square is either empty or occupied by an enemy piece - this
     # guy teleports. It's the subclass' responsibility to provide the
-    # movement rules in the form of the @movement_rule instance
-    # variable.
+    # movement rules in the form of the #movement_rule private method.
     #
     # Instance variables:
     #
@@ -19,45 +18,49 @@ module ChessValidator
     #
     # * @board : a board object; see Chess::Board class.
     #
-    # * @movement_rule : block that takes a destination square and
-    # * returns true if it's valid for the given piece and false
-    # * otherwise.
-    #
     # Instance methods:
     #
     # * valid_move? : evaluates if the given destination square is
     # valid according to the piece's movement rules.
     #
+    #
+    # Example Usage
+    #
+    #   class MyCustomPiece < Piece
+    #     private
+    #
+    #     def movement_rule(destination)
+    #       # The implementation of this is specific to each piece.
+    #       am_i_allowed_there? destination
+    #     end
+    #   end
+    #
     class Piece
 
       COLORS = {b: "black", w: "white"}
 
-      attr_accessor :color, :movement_rule
+      attr_accessor :color
       attr_reader :position
 
       def initialize(color, position, board, &blk)
         @color = color
         @position = position
         @board = board
-        @movement_rule = blk || Proc.new { |destination| true }
       end
 
       #
-      # Checks if the destination square is empty or occuppied by an
-      # enemy piece.
-      #
-      # Concrete pieces must set the instance variable @movement_rule
-      # in it's constructor to be a block that returns true if the
-      # destination is valid for that given piece type and false
-      # otherwise.
+      # Checks if the destination square is empty or occuppied by an enemy
+      # piece.
       #
       def valid_move?(destination)
         return false unless @board.algebraic_notation_lib.valid? destination
+
         occupant = @board[destination]
         result = false
         if occupant.nil? || (enemy? occupant)
-          result = @movement_rule.call(destination)
+          result = movement_rule(destination)
         end
+
         result
       end
 
@@ -74,6 +77,12 @@ module ChessValidator
       end
 
       private
+
+      # Concrete pieces must override this to return true if the destination is
+      # valid for that given piece type and false otherwise.
+      def movement_rule(destination)
+        true
+      end
 
       # Utility to calculate the distance between the current position
       # and a destination square.

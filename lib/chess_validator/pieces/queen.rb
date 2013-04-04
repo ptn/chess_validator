@@ -10,9 +10,12 @@ module ChessValidator
         super
         @rook = Rook.new(color, position, board)
         @bishop = Bishop.new(color, position, board)
-        @movement_rule = Proc.new do |destination|
-          (@bishop.valid_move? destination) || (@rook.valid_move? destination)
-        end
+      end
+
+      private
+
+      def movement_rule(destination)
+        (@bishop.valid_move? destination) || (@rook.valid_move? destination)
       end
     end
   end

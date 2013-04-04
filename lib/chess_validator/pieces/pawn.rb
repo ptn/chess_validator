@@ -11,14 +11,15 @@ module ChessValidator
       def initialize(color, position, board)
         super
         @forward = @color == :b ? -1 : 1
-        @movement_rule = Proc.new do |destination|
-          destination == front_square ||
-            (can_capture? destination) ||
-            (long_start? destination)
-        end
       end
 
       private
+
+      def movement_rule(destination)
+        destination == front_square ||
+          (can_capture? destination) ||
+          (long_start? destination)
+      end
 
       # Returns the algebraic notation for the square in front of this
       # pawn.

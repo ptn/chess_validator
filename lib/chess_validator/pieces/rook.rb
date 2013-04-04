@@ -1,20 +1,17 @@
 module ChessValidator
   module Pieces
     class Rook < Piece
-      def initialize(color, position, board)
-        super
-        @movement_rule = Proc.new do |destination|
-          if @position[0] == destination[0]
-            obstacles_in_column? destination
-          elsif @position[1] == destination[1]
-            obstacles_in_row? destination
-          else
-            false
-          end
+      private
+
+      def movement_rule(destination)
+        if @position[0] == destination[0]
+          obstacles_in_column? destination
+        elsif @position[1] == destination[1]
+          obstacles_in_row? destination
+        else
+          false
         end
       end
-
-      private
 
       # Test if the squares in the same column in between this rook
       # and the destination are empty.

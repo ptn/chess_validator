@@ -1,14 +1,11 @@
 module ChessValidator
   module Pieces
     class Bishop < Piece
-      def initialize(color, position, board)
-        super
-        @movement_rule = Proc.new do |destination|
-          (in_diagonal? destination) && !(obstacles? destination)
-        end
-      end
-
       private
+
+      def movement_rule(destination)
+        (in_diagonal? destination) && !(obstacles? destination)
+      end
 
       def in_diagonal?(destination)
         column_diff, row_diff = diffs(destination)
