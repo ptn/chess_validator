@@ -1,5 +1,5 @@
-require_relative 'test_helper'
-require_relative '../lib/chess_validator'
+require_relative '../test_helper'
+require_relative '../../lib/chess_validator'
 
 describe ChessValidator do
   it "should validate a simple chess board" do
