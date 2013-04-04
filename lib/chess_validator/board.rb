@@ -7,7 +7,7 @@ module ChessValidator
   # Represents a chess board and the pieces set on it.
   #
   class Board
-    attr_reader :matrix, :algebraic_notation_lib
+    attr_reader :algebraic_notation_lib
 
     def initialize(input, algebraic_notation_lib=AlgebraicNotation)
       @algebraic_notation_lib = algebraic_notation_lib
@@ -53,6 +53,8 @@ module ChessValidator
     end
 
     private
+
+    attr_reader :matrix
 
     def validate_algebraic!(algebraic, ex)
       unless algebraic_notation_lib.valid? algebraic
