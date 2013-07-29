@@ -66,6 +66,10 @@ module ChessValidator
         piece.color != @color
       end
 
+      def enemy_color
+        @color == :b ? :w : :b
+      end
+
       def to_s
         [COLORS[@color],
          self.class.name.split('::').last,

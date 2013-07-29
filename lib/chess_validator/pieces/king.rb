@@ -13,7 +13,6 @@ module ChessValidator
       end
 
       def check?(destination)
-        enemy_color = @color == :b ? :w : :b
         @board.set(enemy_color).each do |enemy|
           return true if enemy.valid_move? destination
         end
